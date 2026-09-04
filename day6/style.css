@@ -1,0 +1,17 @@
+#prod-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    padding: 20px;
+}
+
+#prod-container > div {
+    min-height: 200px;
+    border: 1px solid black;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+}
