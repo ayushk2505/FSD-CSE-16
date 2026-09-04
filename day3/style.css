@@ -1,0 +1,30 @@
+div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+  min-height: auto;
+  background: #efddddec;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+div > * {
+  border: 1px solid #333;
+  padding: 10px;
+  text-align: center;
+  background: white;
+  border-radius: 4px;
+}
+
+.header {
+  font-weight: bold;
+  background: #999;
+  color: white;
+}
+
+.category {
+  font-weight: bold;
+  background: #e0e0e0;
+  grid-column: 1 / -1;
+}

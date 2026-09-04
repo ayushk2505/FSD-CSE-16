@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Manager</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Task Manager</h1>
+
+    <input type="text" id="taskInput" placeholder="Enter Your Task">
+    <button onclick="addTask()">Add Task</button>
+
+    <!-- Task Counters -->
+    <div class="count">
+        <div>All: <b id="total">0</b></div>
+        <div>Completed: <b id="completed">0</b></div>
+        <div>Pending: <b id="pending">0</b></div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+        <button onclick="showTasks('all')">All</button>
+        <button onclick="showTasks('completed')">Completed</button>
+        <button onclick="showTasks('pending')">Pending</button>
+    </div>
+
+    <!-- Task List -->
+    <div id="taskList"></div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
