@@ -1,48 +1,34 @@
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import Header from './Components/Header';
+import Products from './Components/Products';
+import Footer from './Components/Footer';
+import Home from './Components/Home';
+import Contact from './Components/Contact';
+import Cart from './Components/Cart';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-const images = [
-  {
-    src: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&h=450&q=80',
-    alt: 'A mountain landscape',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=800&h=450&q=80',
-    alt: 'A lake surrounded by mountains',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&h=450&q=80',
-    alt: 'A valley with a winding river',
-  },
-]
-
-function App() {
-  const [currentImage, setCurrentImage] = useState(0)
-
-  function showPreviousImage() {
-    setCurrentImage((currentImage - 1 + images.length) % images.length)
-  }
-
-  function showNextImage() {
-    setCurrentImage((currentImage + 1) % images.length)
-  }
+const App = () => {
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    fetch("https://dummyjson.com/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data.products))
+  }, [])
+  console.log(products);
 
   return (
-    <main>
-      <h1>Image Slider</h1>
-      <img
-        src={images[currentImage].src}
-        alt={images[currentImage].alt}
-        width="600"
-        height="338"
-      />
-      <p>Image {currentImage + 1} of {images.length}</p>
-      <button type="button" onClick={showPreviousImage}>
-        Previous
-      </button>{' '}
-      <button type="button" onClick={showNextImage}>
-        Next
-      </button>
-    </main>
+    <div>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="product" element={<Products products={products} />}></Route>
+          <Route path="contact" element={<Contact />}></Route>
+          <Route path="cart" element={<Cart />}></Route>
+        </Routes>
+      </BrowserRouter>
+      <Footer />
+    </div>
   )
 }
 

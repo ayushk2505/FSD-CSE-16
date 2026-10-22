@@ -1,78 +1,49 @@
-import { useEffect, useState } from 'react';
+import React, { useState } from 'react'
 
-function getSavedTasks() {
-  try {
-    return JSON.parse(localStorage.getItem('my-tasks')) || [];
-  } catch {
-    return [];
+const App = () => {
+  const [todo, setTodo] = useState("");
+  const [todoList, setTodoList] = useState([]);
+  const [editIndex, setEditIndex] = useState(null);
+  const addHandler = () => {
+    if (todo === "") { alert("Please add something") }
+    else {
+      if (editIndex !== null) {
+        const updatedList = [...todoList];
+        updatedList[editIndex] = todo;
+        setTodoList([...updatedList]);
+        setEditIndex(null)
+      } else {
+        setTodoList([...todoList, todo]);
+      }
+      setTodo("");
+    }
   }
-}
-
-function App() {
-  const [tasks, setTasks] = useState(getSavedTasks);
-  const [taskName, setTaskName] = useState('');
-
-  useEffect(() => {
-    localStorage.setItem('my-tasks', JSON.stringify(tasks));
-  }, [tasks]);
-
-  function addTask(event) {
-    event.preventDefault();
-
-    const name = taskName.trim();
-    if (!name) return;
-
-    setTasks([...tasks, { id: Date.now(), name, done: false }]);
-    setTaskName('');
+  const deleteHandler = (index) => {
+    const updatedList = todoList.filter((t, i) => i !== index);
+    setTodoList([...updatedList]);
   }
-
-  function toggleTask(taskId) {
-    setTasks(tasks.map((task) =>
-      task.id === taskId ? { ...task, done: !task.done } : task
-    ));
+  const editHandler = (index) => {
+    setTodo(todoList[index]);
+    setEditIndex(index);
   }
-
-  function deleteTask(taskId) {
-    setTasks(tasks.filter((task) => task.id !== taskId));
-  }
-
   return (
-    <main>
-      <h1>My To-Do List</h1>
-
-      <form onSubmit={addTask}>
-        <label htmlFor="task-input">What do you need to do?</label>{' '}
-        <input
-          id="task-input"
-          value={taskName}
-          onChange={(event) => setTaskName(event.target.value)}
-          required
-        />{' '}
-        <button type="submit">Add task</button>
-      </form>
-
-      {tasks.length === 0 ? (
-        <p>No tasks yet. Add one above.</p>
-      ) : (
-        <ul aria-label="Your tasks">
-          {tasks.map((task) => (
-            <li key={task.id}>
-              <input
-                type="checkbox"
-                checked={task.done}
-                onChange={() => toggleTask(task.id)}
-                aria-label={`Mark ${task.name} as complete`}
-              />{' '}
-              {task.done ? <del>{task.name}</del> : task.name}{' '}
-              <button type="button" onClick={() => deleteTask(task.id)}>
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-    </main>
-  );
+    <div>
+      <h1>ToDo List</h1>
+      <input
+        value={todo}
+        onChange={(e) => setTodo(e.target.value)}>
+      </input>
+      <button onClick={addHandler}>{editIndex!==null?"UPDATE":"ADD"}</button>
+      <ul>
+        {todoList.map((t, index) =>
+          <li>
+            <span>{t}</span>
+            <button onClick={() => editHandler(index)}>EDIT</button>
+            <button onClick={() => deleteHandler(index)}>DEL</button>
+          </li>)}
+      </ul>
+    </div>
+  )
 }
 
-export default App;
+export default App
